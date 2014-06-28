@@ -26,10 +26,10 @@ I wouldn't actually use this.. it was just an exercise in building such a librar
     };
 
     Car.prototype.stop = function(done) {
-        setTimeout(function() {
-            console.log("We have come to a complete stop");
+        Ajax.post('/car/stop', function(resp) {
+            console.log("car came to a stop!");
             done();
-        }, 1000)
+        })
     };
 
 
