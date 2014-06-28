@@ -3,7 +3,7 @@ var Q = require('q');
 
 var MakeChained = function(klass) {
     var chained_klass = function(){
-        klass.call(this);
+        klass.apply(this, arguments);
         this._chainme_promises = [];
     };
 
