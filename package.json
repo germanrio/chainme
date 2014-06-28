@@ -1,9 +1,10 @@
 {
   "name": "chainme",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Create a chainable class from an asynchronous one",
   "main": "index.js",
   "dependencies": {
+    "deferred": "^0.7.1",
     "q": "^1.0.1"
   },
   "devDependencies": {},

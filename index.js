@@ -1,5 +1,5 @@
 // could probably replace this with something more light weight
-var Q = require('q');
+var deferred = require('deferred');
 
 var MakeChained = function(klass) {
     var chained_klass = function(){
@@ -9,22 +9,22 @@ var MakeChained = function(klass) {
 
     for(var name in klass.prototype) {
         var fn = klass.prototype[name];
-        chained_klass.prototype[name] = get_wrapped_fn(name, fn);
+        chained_klass.prototype[name] = getWrappedFn(name, fn);
     }
 
     return chained_klass;
 };
 
-var get_wrapped_fn = function(name, fn) {
+var getWrappedFn = function(name, fn) {
     return function() {
         // 'this' refers to the instance of the passed in klass/chained_klass
-        var previousPromise = this._chainme_promises.pop();
+        var pending_promise = this._chainme_promises.pop();
 
-        var newPromise = Q.defer();
-        this._chainme_promises.push(newPromise.promise);
+        var def = deferred();
+        this._chainme_promises.push(def.promise);
 
         var callback = function() {
-            newPromise.resolve();
+            def.resolve();
         };
 
         // Append callback to argument list
@@ -32,11 +32,12 @@ var get_wrapped_fn = function(name, fn) {
         mainArguments.push(callback);
 
         // If there was a promise in the queue, wait for it to finish
-        if(previousPromise) {
+        if(pending_promise) {
             var self = this;
-            previousPromise.then(function(){
-                fn.apply(self, mainArguments);
-            });
+            pending_promise
+                .then(function(){
+                    fn.apply(self, mainArguments);
+                }).done();
         } else {
             fn.apply(this, mainArguments);
         }
