@@ -1,0 +1,27 @@
+{
+  "name": "chainme",
+  "version": "0.0.1",
+  "description": "Create a chainable class from an asynchronous one",
+  "main": "index.js",
+  "dependencies": {
+    "q": "^1.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cambridgemike/chainme.git"
+  },
+  "keywords": [
+    "async",
+    "chain"
+  ],
+  "author": "Mike Anderson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cambridgemike/chainme/issues"
+  },
+  "homepage": "https://github.com/cambridgemike/chainme"
+}
