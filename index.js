@@ -1,7 +1,7 @@
 // could probably replace this with something more light weight
 var Q = require('q');
 
-MakeChained = function(klass) {
+var MakeChained = function(klass) {
     var chained_klass = function(){
         klass.call(this);
         this._chainme_promises = [];
@@ -15,7 +15,7 @@ MakeChained = function(klass) {
     return chained_klass;
 };
 
-get_wrapped_fn = function(name, fn) {
+var get_wrapped_fn = function(name, fn) {
     return function() {
         // 'this' refers to the instance of the passed in klass/chained_klass
         var previousPromise = this._chainme_promises.pop();
