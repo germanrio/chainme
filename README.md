@@ -6,36 +6,36 @@ Basically -- after you build a class, `Car`, pass it to `ChainMe` and it will re
 
 ## Installation
 
-	npm install chainme
+    npm install chainme
 
 ## Usage
 
 I wouldn't actually use this.. it was just an exercise in building such a library.
 
-	var ChainMe = require('chainme');
+    var ChainMe = require('chainme');
 
-	// This is the class we will convert to a chained API
-	var Car = function() { };
+    // This is the class we will convert to a chained API
+    var Car = function() { };
 
-	Car.prototype.drive = function(ms, done) {
-		console.log("here we go!");
-		setTimeout(function(){
-			console.log("That took " + ms + " milliseconds!");
-			done();
-		}, ms)
-	};
+    Car.prototype.drive = function(ms, done) {
+        console.log("here we go!");
+        setTimeout(function(){
+            console.log("That took " + ms + " milliseconds!");
+            done();
+        }, ms)
+    };
 
-	Car.prototype.stop = function(done) {
-		setTimeout(function() {
-			console.log("We have come to a complete stop");
-			done();
-		}, 1000)
-	};
-
-
-	var ChainedCar = ChainMe(Car);
+    Car.prototype.stop = function(done) {
+        setTimeout(function() {
+            console.log("We have come to a complete stop");
+            done();
+        }, 1000)
+    };
 
 
-	var c = new ChainedCar();
+    var ChainedCar = ChainMe(Car);
 
-	c.drive(2000).stop().drive(1000).stop();
+
+    var c = new ChainedCar();
+
+    c.drive(2000).stop().drive(1000).stop();
