@@ -26,21 +26,17 @@ var getWrappedFn = function(fn) {
         // 'this' refers to the instance of the passed in klass/chained_klass
 
         var def = deferred();
-
         var callback = function() {
             def.resolve();
         };
 
         // Append callback to argument list
-        var args = Array.prototype.slice.call(arguments);
+        var args = [].slice.call(arguments);
         args.push(callback);
 
-        // If there was a promise in the queue, wait for it to finish
-        var self = this;
-        this._previous_promise
-            .then(function(){
-                fn.apply(self, args);
-            }).done();
+        var fn_with_callback = fn.bind.apply(fn, [this].concat(args));
+
+        this._previous_promise.then(fn_with_callback).done();
 
         this._previous_promise = def.promise;
 
