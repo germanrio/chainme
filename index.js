@@ -1,7 +1,7 @@
 // could probably replace this with something more light weight
 var deferred = require('deferred');
 
-var MakeChained = function(klass) {
+var MakeChained = function(klass, opts) {
     // Chained klass extends klass, but wraps all of its prototype methods
     var chained_klass = function(){
         klass.apply(this, arguments);
@@ -17,6 +17,14 @@ var MakeChained = function(klass) {
         var fn = klass.prototype[name];
         chained_klass.prototype[name] = getWrappedFn(fn);
     });
+
+    // Add ending chain method
+    if (opts && opts.chainEndFnName) {
+        chained_klass.prototype[opts.chainEndFnName] = function (fn) {
+            this._previous_promise.then(fn).done();
+            return this;
+        };
+    }
 
     return chained_klass;
 };
